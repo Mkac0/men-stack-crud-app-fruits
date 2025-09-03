@@ -36,6 +36,11 @@ app.get("/fruits/new", (req, res) => {
   res.render("fruits/new.ejs"); // Instead of res.send, let’s render the new.ejs template we just created in the views/fruit directory
 });
 
+app.get("/fruits/:fruitId", async (req, res) => {
+    const foundFruit = await Fruit.findById(req.params.fruitId);
+    res.render("fruits/show.ejs", { fruit: foundFruit });
+});
+
 // POST /fruits
 app.post("/fruits", async (req, res) => {
   try {
