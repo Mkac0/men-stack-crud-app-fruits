@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fruit Show Page</title>
-  </head>
-  <body>
-    <h1><%= fruit.name %></h1> <!-- Display fruit name -->
-    <!-- Add more details about the fruit here -->
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <a href="/fruits/">Back to Fruits</a>
+        <title>Fruit Show Page</title>
+    </head>
+    <body>
+    <h1><%= fruit.name %></h1>
+    <!-- Conditional rendering based on fruit's readiness -->
+    <% if (fruit.isReadyToEat) { %>
+        <p>This fruit is ready to eat!</p>
+    <% } else { %>
+        <p>This fruit is not ready to eat!</p>
+    <% } %>
+    </body>
 </html>
