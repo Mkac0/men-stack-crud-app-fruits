@@ -50,14 +50,6 @@ app.delete("/fruits/:fruitId", async (req, res) => {
     res.redirect("/fruits");
 });
 
-// GET localhost:3000/fruits/:fruitId/edit
-app.get("/fruits/:fruitId/edit", async (req, res) => {
-    const foundFruit = await Fruit.findById(req.params.fruitId);
-    res.render("fruits/edit.ejs", {
-        fruit: foundFruit,
-    });
-});
-
 // POST /fruits
 app.post("/fruits", async (req, res) => {
     try {
@@ -70,6 +62,24 @@ app.post("/fruits", async (req, res) => {
     }
     res.redirect("/fruits"); // redirect to index fruits
 });
+
+// GET localhost:3000/fruits/:fruitId/edit
+app.get("/fruits/:fruitId/edit", async (req, res) => {
+    const foundFruit = await Fruit.findById(req.params.fruitId);
+    res.render("fruits/edit.ejs", {
+        fruit: foundFruit,
+    });
+});
+
+app.put('/fruits/:fruitId', async (req, res) => {
+    if (req.body.isReadyToEat === 'on') {
+        req.body.isReadyToEat = true;
+    } else {
+        req.body.isReadyToEat = false;
+    }
+    await Fruit.findByIdAndUpdate(req.params.fruitId, req.body);
+    res.redirect(`/fruits/${req.params.fruitId}`);
+})
 
 // --- Server/Listener ---
 app.listen(3000, () => {
