@@ -5,6 +5,8 @@ require('dotenv').config(); // Loads the environment variables from .env file
 const PORT = process.env.PORT || 3000;
 
 const mongoose = require("mongoose"); // require package
+const methodOverride = require("method-override"); // new
+const morgan = require("morgan"); //new
 
 // --- DB ---
 // Connect to MongoDB using the connection string in the .env file
@@ -20,6 +22,8 @@ const Fruit = require("./models/fruit.js");
 
 // MIDDLEWARE - if "false" we use querystring library (basic objects)
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method")); // new
+app.use(morgan("dev")); //new
 
 // --- Routes ---
 app.get("/", async (req, res) => {
@@ -39,6 +43,18 @@ app.get("/fruits/new", (req, res) => {
 app.get("/fruits/:fruitId", async (req, res) => {
     const foundFruit = await Fruit.findById(req.params.fruitId);
     res.render("fruits/show.ejs", { fruit: foundFruit });
+});
+
+app.delete("/fruits/:fruitId", async (req, res) => {
+    await Fruit.findByIdAndDelete(req.params.fruitId);
+    res.redirect("/fruits");
+});
+
+// GET localhost:3000/fruits/:fruitId/edit
+app.get("/fruits/:fruitId/edit", async (req, res) => {
+    const foundFruit = await Fruit.findById(req.params.fruitId);
+    console.log(foundFruit);
+    res.send(`This is the edit route for ${foundFruit.name}`);
 });
 
 // POST /fruits
