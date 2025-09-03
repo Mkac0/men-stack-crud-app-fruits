@@ -17,8 +17,15 @@ mongoose.connection.on("connected", () => {     // log connection status to term
 // disconnect
 db.on('disconnected', () => {console.log('mongo disconnected')})
 
+// Import the Fruit model
+const Fruit = require("./models/fruit.js");
+
 app.get("/", async (req, res) => {
   res.render("index.ejs");
+});
+
+app.get("/fruits/new", (req, res) => {
+  res.send("This route sends the user a form page!");
 });
 
 app.listen(3000, () => {
