@@ -5,12 +5,17 @@ const mongoose = require("mongoose"); // require package
 
 const app = express();
 
+// database setup
 // Connect to MongoDB using the connection string in the .env file
 mongoose.connect(process.env.MONGODB_URI);
-// log connection status to terminal on start
-mongoose.connection.on("connected", () => {
+// log connection status (optional)
+const db = mongoose.connection
+db.on('error', (err) => {console.log('ERROR: ', err)})
+mongoose.connection.on("connected", () => {     // log connection status to terminal on start
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
+// disconnect
+db.on('disconnected', () => {console.log('mongo disconnected')})
 
 app.get("/", async (req, res) => {
   res.render("index.ejs");
