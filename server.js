@@ -27,7 +27,7 @@ app.use(morgan("dev")); //new
 
 // --- Routes ---
 app.get("/", async (req, res) => {
-  res.render("index.ejs");
+    res.render("index.ejs");
 });
 
 // GET /fruits
@@ -53,24 +53,25 @@ app.delete("/fruits/:fruitId", async (req, res) => {
 // GET localhost:3000/fruits/:fruitId/edit
 app.get("/fruits/:fruitId/edit", async (req, res) => {
     const foundFruit = await Fruit.findById(req.params.fruitId);
-    console.log(foundFruit);
-    res.send(`This is the edit route for ${foundFruit.name}`);
+    res.render("fruits/edit.ejs", {
+        fruit: foundFruit,
+    });
 });
 
 // POST /fruits
 app.post("/fruits", async (req, res) => {
-  try {
-    req.body.isReadyToEat = req.body.isReadyToEat === "on";
-    await Fruit.create(req.body);
-    res.redirect("/fruits/new"); // redirect to the route, not the file
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Failed to create fruit");
-  }
-  res.redirect("/fruits"); // redirect to index fruits
+    try {
+        req.body.isReadyToEat = req.body.isReadyToEat === "on";
+        await Fruit.create(req.body);
+        res.redirect("/fruits/new"); // redirect to the route, not the file
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Failed to create fruit");
+    }
+    res.redirect("/fruits"); // redirect to index fruits
 });
 
 // --- Server/Listener ---
 app.listen(3000, () => {
-  console.log('Listening on port 3000');
+    console.log('Listening on port 3000');
 });
