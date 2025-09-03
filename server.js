@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3000;
 const mongoose = require("mongoose"); // require package
 const methodOverride = require("method-override"); // new
 const morgan = require("morgan"); //new
+const path = require("path");
 
 // --- DB ---
 // Connect to MongoDB using the connection string in the .env file
@@ -24,6 +25,7 @@ const Fruit = require("./models/fruit.js");
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method")); // new
 app.use(morgan("dev")); //new
+app.use(express.static(path.join(__dirname, "public")));
 
 // --- Routes ---
 app.get("/", async (req, res) => {
