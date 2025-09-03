@@ -34,7 +34,7 @@ app.post("/fruits", async (req, res) => {
   res.redirect("/fruits/new");
 });
 
-// MIDDLEWARE
+// MIDDLEWARE - if "false" we use querystring library (basic objects)
 app.use(express.urlencoded({ extended: false }));
 
 app.listen(3000, () => {
