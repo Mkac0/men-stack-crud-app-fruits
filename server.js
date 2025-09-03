@@ -26,6 +26,12 @@ app.get("/", async (req, res) => {
   res.render("index.ejs");
 });
 
+// GET /fruits
+app.get("/fruits", async (req, res) => {
+    const allFruits = await Fruit.find();
+    res.render("fruits/index.ejs", { fruits: allFruits });
+});
+
 app.get("/fruits/new", (req, res) => {
   res.render("fruits/new.ejs"); // Instead of res.send, let’s render the new.ejs template we just created in the views/fruit directory
 });
@@ -40,6 +46,7 @@ app.post("/fruits", async (req, res) => {
     console.error(err);
     res.status(500).send("Failed to create fruit");
   }
+  res.redirect("/fruits"); // redirect to index fruits
 });
 
 // --- Server/Listener ---
